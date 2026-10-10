@@ -18,18 +18,16 @@ addEventListener("load", () => {
 		const { value } = textInput;
 		const match = value.match(/((?:'|[^\W\d])+)(\d+)?[\s.?!]+$/);
 		if (match) { // finished word
-			const fragment = match[1];
-			const index = match[2] ? match[2] - 1 : 0;
+			const [, fragment, number = ""] = match;
+			const index = number ? number - 1 : 0;
 			const word = (await rank(fragment))[index] ?? fragment;
-			const needle = fragment + match[2];
+			const needle = fragment + number;
 			const value = textInput.value;
-			const wordIndex = value.lastIndexOf(needle);
-			textInput.value = value.slice(0, wordIndex) + word + value.slice(wordIndex + needle.length);
-			if (value.endsWith("\n")) {
-				if ($("#speak").checked) {
-					const line = value.split("\n").at(-2);
-					speechSynthesis.speak(new SpeechSynthesisUtterance(line));
-				}
+			const needleIndex = value.lastIndexOf(needle);
+			textInput.value = value.slice(0, needleIndex) + word + value.slice(needleIndex + needle.length);
+			if (value.endsWith("\n") && $("#speak").checked) {
+				const line = textInput.value.split("\n").at(-2);
+				speechSynthesis.speak(new SpeechSynthesisUtterance(line));
 			}
 		}
 		const lastWord = value.match(/((?:'|[^\W\d])+)(\d+)?$/);
