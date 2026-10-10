@@ -1,0 +1,29 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+main {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1em;
+
+	> * {
+		border: 1px black solid;
+		resize: none;
+		padding: 1em;
+		font: 16px monospace;
+	}
+}
+
+#suggestions {
+	padding-left: calc(4ch + 1em);
+}
